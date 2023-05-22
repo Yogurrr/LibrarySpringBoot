@@ -1,0 +1,109 @@
+<!DOCTYPE html>
+<html lang="ko" xmlns:th="http://www.thymeleaf.org">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Library</title>
+    <script src="https://kit.fontawesome.com/106939d789.js" crossorigin="anonymous"></script>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-rbsA2VBKQhggwzxH7pPCaAqO46MgnOM80zW1RWuH61DGLwZJEdK2Kadq2F9CUG65" crossorigin="anonymous">
+    <link rel="stylesheet" href="/assets/css/library.css">
+</head>
+<body>
+
+<div id="main" th:with="pglink=${ #strings.isEmpty(param.fkey) ? '/list?cpg=' : '/find?ftype='+param.ftype+'&fkey='+param.fkey+'&cpg=' }">
+    <div class="mt-5">
+        <h2 style="font-weight: bold">도서관 목록</h2>
+        <hr>
+    </div>
+
+    <div class="row mt-5">
+        <div class=" row offset-2 col-6">
+            <div class="col-4">
+                <select class="form-select" id="findtype">
+                    <option value="lbname">도서관 이름</option>
+                    <option value="sido">시도</option>
+                    <option value="gugun">구군</option>
+                </select>
+            </div>
+            <div class="col-4">
+                <input type="text" class="form-control" id="findkey" th:value="${param.fkey}">
+            </div>
+            <div class="col-3">
+                <button type="button" class="btn btn-light" id="findbtn">
+                    <i class="fa-solid fa-magnifying-glass"></i> 검색하기
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <div class="row">
+        <div class="offset-2 col-8 text-end"></div>
+    </div>
+
+    <div class="row mt-2">
+        <div class="offset-2 col-8">
+            <table class="table table-striped thborder">
+                <thead class="thbg">
+                <tr>
+                    <th style="width: 9%;" id="lbno">도서관 번호</th>
+                    <th style="text-align: center; width: 20%">도서관명</th>
+                    <th style="width: 10%;">시도</th>
+                    <th style="width: 7%;">구군</th>
+                    <th style="width: 10%;">도서관 타입</th>
+                    <th>운영종료일</th>
+                    <th style="text-align: center; width: 13%;">연락처</th>
+                </tr>
+                </thead>
+                <tbody>
+                <tr th:each="lb : ${lblist}">
+                    <td th:text="${lb.lbno}">&nbsp;</td>
+                    <td th:text="${lb.lbname}" style="text-align: center"></td>
+                    <td th:text="${lb.sido}">&nbsp;</td>
+                    <td th:text="${lb.gugun}">&nbsp;</td>
+                    <td th:text="${lb.lbtype}">&nbsp;</td>
+                    <td th:text="${lb.clsday}">&nbsp;</td>
+                    <td th:text="${lb.phone}" style="text-align: center">&nbsp;</td>
+                </tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+
+    <div class="row">
+        <div class="offset-2 col-8 text-end">
+            <nav>
+                <ul class="pagination justify-content-center">
+
+                    <th:block th:if="${cpg gt 1}">
+                        <li class="page-item"><a class="page-link" th:href="|${pglink}1|">처음</a></li>
+                    </th:block>
+
+                    <li th:class="${ (cpg - 1 gt 0) ? 'page-item' : 'page-item disabled' }">
+                        <a class="page-link" th:href="|${pglink}${cpg - 1}|">이전</a></li>
+
+                    <th:block th:each="i : ${#numbers.sequence(stpg, stpg + 9)}">
+                        <th:block th:if="${i le cntpg}">
+                            <li th:class="${ (i ne cpg) ? 'page-item' : 'page-item active' }">
+                                <a class="page-link" th:href="|${pglink}${i}|" th:text="${i}"></a>
+                            </li>
+                        </th:block>
+                    </th:block>
+
+                    <li th:class="${ (cpg le cntpg) ? 'page-item' : 'page-item disabled' }">
+                        <a class="page-link" th:href="|${pglink}${cpg + 1}|">다음</a></li>
+
+                    <th:block th:if="${cpg lt cntpg}">
+                        <li class="page-item"><a class="page-link" th:href="|${pglink}${cntpg}|">끝</a></li>
+                    </th:block>
+                </ul>
+            </nav>
+        </div>
+    </div>
+</div>
+
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-kenU1KFdBIe4zVF0s0G1M5b4hcpxyD9F7jL+jjXkk+Q2h455rYXK/7HAuoJl+0I4" crossorigin="anonymous"></script>
+<script src="/assets/js/library.js"></script>
+
+</body>
+</html>
