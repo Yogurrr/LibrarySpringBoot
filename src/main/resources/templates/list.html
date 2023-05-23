@@ -12,6 +12,14 @@
 <body>
 
 <div id="main" th:with="pglink=${ #strings.isEmpty(param.fkey) ? '/list?cpg=' : '/find?ftype='+param.ftype+'&fkey='+param.fkey+'&cpg=' }">
+
+    <th:block th:if="${cpg gt cntpg}">
+        <!--<script>location.href="/list?cpg=1"</script>-->
+        <script th:inline="javascript">
+            location.href="/list?cpg=" + [[${cntpg}]];
+        </script>
+    </th:block>
+
     <div class="mt-5">
         <h2 style="font-weight: bold">도서관 목록</h2>
         <hr>
