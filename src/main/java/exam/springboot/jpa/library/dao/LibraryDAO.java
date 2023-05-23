@@ -7,9 +7,9 @@ import java.util.Map;
 
 public interface LibraryDAO {
 
-    List<Library> selectLibrary(int cpage);
+    Map<String, Object> selectLibrary(int cpage);
     List<Library> selectLibrary(Map<String, Object> params);
 
-    int countLibrary();
+//    int countLibrary();
     int countLibrary(Map<String, Object> params);
 }

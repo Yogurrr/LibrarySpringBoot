@@ -8,7 +8,7 @@ import java.util.List;
 
 public interface LibraryRepository extends PagingAndSortingRepository<Library, Long> {
 
-    int countLibraryBy();
+//    int countLibraryBy();
 
     List<Library> findByLbnameContains(Pageable paging, String fkey);
     List<Library> findBySidoContains(Pageable paging, String fkey);

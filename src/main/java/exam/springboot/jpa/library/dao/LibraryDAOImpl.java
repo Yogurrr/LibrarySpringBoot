@@ -8,6 +8,7 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Repository;
 
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -18,10 +19,17 @@ public class LibraryDAOImpl implements LibraryDAO {
     LibraryRepository libraryRepository;
 
     @Override
-    public List<Library> selectLibrary(int cpage) {
+    public Map<String, Object> selectLibrary(int cpage) {
         Pageable paging = PageRequest.of(cpage, 25, Sort.by("lbno").descending());
 
-        return libraryRepository.findAll(paging).getContent();
+        List<Library> lblist = libraryRepository.findAll(paging).getContent();
+        int cntpg = libraryRepository.findAll(paging).getTotalPages();
+
+        Map<String, Object> libs = new HashMap<>();
+        libs.put("lblist", lblist);
+        libs.put("cntpg", cntpg);
+
+        return libs;
     }
 
     @Override
@@ -49,12 +57,12 @@ public class LibraryDAOImpl implements LibraryDAO {
         return result;
     }
 
-    @Override
+    /*@Override
     public int countLibrary() {
         int allcnt = libraryRepository.countLibraryBy();
 
         return (int) Math.ceil(allcnt / 25);
-    }
+    }*/
 
     @Override
     public int countLibrary(Map<String, Object> params) {

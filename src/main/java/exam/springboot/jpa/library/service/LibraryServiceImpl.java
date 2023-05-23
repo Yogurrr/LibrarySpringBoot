@@ -16,7 +16,7 @@ public class LibraryServiceImpl implements LibraryService {
     private LibraryDAO lbdao;
 
     @Override
-    public List<Library> readLibrary(int cpage) {
+    public Map<String, Object> readLibrary(int cpage) {
 
         return lbdao.selectLibrary(cpage);
     }
@@ -33,10 +33,10 @@ public class LibraryServiceImpl implements LibraryService {
         return lbdao.selectLibrary(params);
     }
 
-    @Override
+    /*@Override
     public int countLibrary() {
         return lbdao.countLibrary();
-    }
+    }*/
 
     @Override
     public int countLibrary(String ftype, String fkey) {
